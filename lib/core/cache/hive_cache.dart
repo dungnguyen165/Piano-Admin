@@ -1,0 +1,20 @@
+import 'package:piano_admin/core/cache/cache.dart';
+import 'package:hive/hive.dart';
+
+class HiveCache extends Cache {
+  final Box _box;
+
+  HiveCache({Box? box}) : _box = box ?? Hive.box('appBox');
+
+  @override
+  T? read<T extends Object>({required String key}) {
+    final value = _box.get(key);
+    if (value is T) return value;
+    return null;
+  }
+
+  @override
+  void write<T extends Object>({required String key, required T value}) {
+    _box.put(key, value);
+  }
+}
