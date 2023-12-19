@@ -1,0 +1,10 @@
+{
+  "appName": "Piano Admin",
+  "schedule": "Schedule",
+  "bill": "Bill",
+  "people": "People",
+  "profile": "Profile",
+  "notification": "Notification",
+  "signUp": "Sign Up",
+  "login": "Login"
+}

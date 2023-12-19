@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({required this.child, super.key});
@@ -17,11 +18,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Piano'),
+        title: Text(AppLocalizations.of(context)!.appName),
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_outlined),
-            tooltip: 'Notification',
+            tooltip: AppLocalizations.of(context)!.notification,
             onPressed: () {
               context.go('/notification');
             },
@@ -30,15 +31,15 @@ class _HomePageState extends State<HomePage> {
       ),
       body: widget.child,
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.schedule_outlined), label: 'Schedule'),
+              icon: const Icon(Icons.schedule_outlined), label: AppLocalizations.of(context)!.schedule),
           BottomNavigationBarItem(
-              icon: Icon(Icons.payment_outlined), label: 'Bill'),
+              icon: const Icon(Icons.payment_outlined), label: AppLocalizations.of(context)!.bill),
           BottomNavigationBarItem(
-              icon: Icon(Icons.people_outline), label: 'People'),
+              icon: const Icon(Icons.people_outline), label: AppLocalizations.of(context)!.people),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings_outlined), label: 'Setting'),
+              icon: const Icon(Icons.settings_outlined), label: AppLocalizations.of(context)!.profile),
         ],
         currentIndex: _currentIndex,
         unselectedItemColor: Colors.black,

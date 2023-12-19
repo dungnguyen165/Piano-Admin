@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotificationPage extends StatelessWidget {
   const NotificationPage({super.key});
@@ -6,8 +7,8 @@ class NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Notification')),
-      body: const Center(child: Text('Notification')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.notification)),
+      body: Center(child: Text(AppLocalizations.of(context)!.notification)),
     );
   }
 }

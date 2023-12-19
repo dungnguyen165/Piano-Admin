@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../config/config.dart';
 import '../../../../injection_container.dart';
 import '../../../authentication/authentication.dart';
@@ -106,8 +108,10 @@ class AppView extends StatelessWidget {
         ],
         child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
           return MaterialApp.router(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
             debugShowCheckedModeBanner: false,
-            title: 'Piano Admin',
+            onGenerateTitle: (context) => AppLocalizations.of(context)!.appName,
             theme: theme(),
             routerConfig: _router,
           );

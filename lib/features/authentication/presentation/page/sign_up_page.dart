@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
@@ -9,11 +10,11 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign Up'),
+        title: Text(AppLocalizations.of(context)!.signUp),
       ),
-      body: const Center(
+      body: Center(
         child: Text(
-          'Sign Up Page'
+          AppLocalizations.of(context)!.signUp
         ),
       ),
     );
