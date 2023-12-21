@@ -6,5 +6,15 @@
   "profile": "Hồ Sơ",
   "notification": "Thông Báo",
   "signUp": "Đăng Ký",
-  "login": "Đăng Nhập"
+  "login": "Đăng Nhập",
+
+  "account": "Tài Khoản",
+  "settings": "Cài Đặt",
+  "email": "Email",
+  "phoneNumber": "Số Điện Thoại",
+  "password": "Mật Khẩu",
+  "userName": "Tên Người Dùng",
+  "language": "Ngôn Ngữ",
+  "theme": "Giao Diện",
+  "logout": "Đăng Xuất"
 }

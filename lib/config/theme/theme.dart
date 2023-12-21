@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 ThemeData theme() {
-  return ThemeData(useMaterial3: true, appBarTheme: appBarTheme(), bottomAppBarTheme: bottomAppBarTheme());
+  return ThemeData(
+      useMaterial3: true,
+      appBarTheme: appBarTheme(),
+      bottomAppBarTheme: bottomAppBarTheme(),
+      scaffoldBackgroundColor: Colors.white);
 }
 
 AppBarTheme appBarTheme() {
@@ -11,7 +15,5 @@ AppBarTheme appBarTheme() {
 }
 
 BottomAppBarTheme bottomAppBarTheme() {
-  return const BottomAppBarTheme(
-
-  );
+  return const BottomAppBarTheme();
 }

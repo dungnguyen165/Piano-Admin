@@ -2,7 +2,6 @@ import '../../../../../core/core.dart';
 import '../../../authentication.dart';
 
 class HiveAuthLocalDataSource implements AuthLocalDataSource {
-
   static const userCacheKey = '__user_cache_key';
 
   HiveAuthLocalDataSource({Cache? cache}) : _cache = cache ?? HiveCache();
@@ -10,8 +9,8 @@ class HiveAuthLocalDataSource implements AuthLocalDataSource {
   final Cache _cache;
 
   @override
-  void saveCurrentUser(UserModel user) {
-    _cache.write(key: userCacheKey, value: user);
+  Future<void> saveCurrentUser(UserModel user) {
+    return _cache.write(key: userCacheKey, value: user);
   }
 
   @override

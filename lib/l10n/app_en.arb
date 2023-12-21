@@ -6,5 +6,15 @@
   "profile": "Profile",
   "notification": "Notification",
   "signUp": "Sign Up",
-  "login": "Login"
+  "login": "Login",
+
+  "account": "Account",
+  "settings": "Settings",
+  "email": "Email",
+  "phoneNumber": "Phone Number",
+  "password": "Password",
+  "userName": "Username",
+  "language": "Language",
+  "theme": "Theme",
+  "logout": "Log out"
 }

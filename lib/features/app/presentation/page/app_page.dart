@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:piano_admin/features/profile/presentation/page/language_page.dart';
 import '../../../../config/config.dart';
 import '../../../../injection_container.dart';
 import '../../../authentication/authentication.dart';
@@ -68,10 +69,23 @@ final _router = GoRouter(
           path: '/profile',
           pageBuilder: (context, state) =>
               const NoTransitionPage(child: ProfilePage()),
-        ),
-        GoRoute(
-          path: '/notification',
-          builder: (context, state) => const NotificationPage(),
+          routes: [
+            GoRoute(
+              parentNavigatorKey: _rootNavigatorKey,
+              path: 'password',
+              builder: (context, state) => const LanguagePage(),
+            ),
+            GoRoute(
+              parentNavigatorKey: _rootNavigatorKey,
+              path: 'theme',
+              builder: (context, state) => const LanguagePage(),
+            ),
+            GoRoute(
+              parentNavigatorKey: _rootNavigatorKey,
+              path: 'language',
+              builder: (context, state) => const LanguagePage(),
+            ),
+          ],
         ),
       ],
     ),
@@ -103,20 +117,27 @@ class AppView extends StatelessWidget {
         )
       ],
       child: MultiBlocProvider(
-        providers: [
-          BlocProvider<AuthBloc>(lazy: false, create: (context) => sl())
-        ],
-        child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-          return MaterialApp.router(
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            debugShowCheckedModeBanner: false,
-            onGenerateTitle: (context) => AppLocalizations.of(context)!.appName,
-            theme: theme(),
-            routerConfig: _router,
-          );
-        }),
-      ),
+          providers: [
+            BlocProvider<AuthBloc>(create: (context) => sl()),
+            BlocProvider<LanguageBloc>(
+                create: (context) => sl()..add(LanguageStarted()))
+          ],
+          child:
+              BlocBuilder<AuthBloc, AuthState>(builder: (context, authState) {
+            return BlocBuilder<LanguageBloc, LanguageState>(
+                builder: (context, languageState) {
+              return MaterialApp.router(
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                locale: languageState.language.locale,
+                debugShowCheckedModeBanner: false,
+                onGenerateTitle: (context) =>
+                    AppLocalizations.of(context)!.appName,
+                theme: theme(),
+                routerConfig: _router,
+              );
+            });
+          })),
     );
   }
 }

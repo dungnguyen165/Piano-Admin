@@ -14,7 +14,8 @@ class HiveCache extends Cache {
   }
 
   @override
-  void write<T extends Object>({required String key, required T value}) {
-    _box.put(key, value);
+  Future<void> write<T extends Object>(
+      {required String key, required T value}) {
+    return _box.put(key, value);
   }
 }
