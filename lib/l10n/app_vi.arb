@@ -16,5 +16,9 @@
   "userName": "Tên Người Dùng",
   "language": "Ngôn Ngữ",
   "theme": "Giao Diện",
-  "logout": "Đăng Xuất"
+  "light": "Sáng",
+  "dark": "Tối",
+  "system": "Hệ Thống",
+  "logOut": "Đăng Xuất",
+  "confirmLogOut": "Bạn có chắc chắc muốn đăng xuất?"
 }

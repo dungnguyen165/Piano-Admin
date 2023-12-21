@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:piano_admin/core/core.dart';
-import 'package:piano_admin/features/profile/profile.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../profile.dart';
 
 class LanguagePage extends StatelessWidget {
   const LanguagePage({super.key});
@@ -33,13 +32,17 @@ class LanguagePage extends StatelessWidget {
             title: Text(language.nativeValue),
             value: Text(language.value),
             onPressed: (context) {
-              context.read<LanguageBloc>().add(LanguageChanged(language));
+              context
+                  .read<LanguageBloc>()
+                  .add(LanguageChanged(language: language));
             },
             leading: Radio<LanguageEntity>(
               value: language,
               groupValue: selectedLanguage,
               onChanged: (selectedLanguage) {
-                context.read<LanguageBloc>().add(LanguageChanged(language));
+                context
+                    .read<LanguageBloc>()
+                    .add(LanguageChanged(language: language));
               },
             ),
           ),

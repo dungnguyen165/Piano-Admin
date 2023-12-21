@@ -1,9 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:piano_admin/features/profile/domain/entity/language_entity.dart';
-import 'package:piano_admin/features/profile/domain/use_case/get_language_use_case.dart';
-import 'package:piano_admin/features/profile/domain/use_case/save_language_use_case.dart';
-import 'language_event.dart';
-import 'language_state.dart';
+import '../../../profile.dart';
 
 class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
   LanguageBloc({
@@ -11,7 +7,7 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
     required SaveLanguageUseCase saveLanguageUseCase,
   })  : _getLanguageUseCase = getLanguageUseCase,
         _saveLanguageUseCase = saveLanguageUseCase,
-        super(LanguageLoadSuccess(const LanguageEntity.english())) {
+        super(const LanguageLoadSuccess(LanguageEntity.english())) {
     on<LanguageStarted>(_onLanguageStarted);
     on<LanguageChanged>(_onLanguageChanged);
   }

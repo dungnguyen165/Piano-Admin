@@ -16,5 +16,9 @@
   "userName": "Username",
   "language": "Language",
   "theme": "Theme",
-  "logout": "Log out"
+  "light": "Light",
+  "dark": "Dark",
+  "system": "System",
+  "logOut": "Log out",
+  "confirmLogOut": "Are you sure you want to log out?"
 }

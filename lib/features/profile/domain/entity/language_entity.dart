@@ -1,8 +1,6 @@
 import 'dart:ui';
 
-import 'package:equatable/equatable.dart';
-
-final class LanguageEntity extends Equatable {
+final class LanguageEntity {
   const LanguageEntity._({
     required this.code,
     required this.value,
@@ -26,7 +24,4 @@ final class LanguageEntity extends Equatable {
   Locale get locale {
     return Locale(code);
   }
-
-  @override
-  List<Object?> get props => [code, value];
 }

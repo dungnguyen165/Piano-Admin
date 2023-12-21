@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:piano_admin/features/profile/presentation/page/language_page.dart';
+import 'package:piano_admin/features/profile/presentation/page/password_page.dart';
+import 'package:piano_admin/features/profile/presentation/page/theme_page.dart';
 import '../../../../config/config.dart';
 import '../../../../injection_container.dart';
 import '../../../authentication/authentication.dart';
@@ -73,12 +74,12 @@ final _router = GoRouter(
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
               path: 'password',
-              builder: (context, state) => const LanguagePage(),
+              builder: (context, state) => const PasswordPage(),
             ),
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
               path: 'theme',
-              builder: (context, state) => const LanguagePage(),
+              builder: (context, state) => const ThemePage(),
             ),
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
@@ -117,27 +118,37 @@ class AppView extends StatelessWidget {
         )
       ],
       child: MultiBlocProvider(
-          providers: [
-            BlocProvider<AuthBloc>(create: (context) => sl()),
-            BlocProvider<LanguageBloc>(
-                create: (context) => sl()..add(LanguageStarted()))
-          ],
-          child:
-              BlocBuilder<AuthBloc, AuthState>(builder: (context, authState) {
+        providers: [
+          BlocProvider<AuthBloc>(create: (context) => sl()),
+          BlocProvider<LanguageBloc>(
+              create: (context) => sl()..add(LanguageStarted())),
+          BlocProvider<ThemeBloc>(
+              create: (context) => sl()..add(ThemeStarted()))
+        ],
+        child: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, authState) {
             return BlocBuilder<LanguageBloc, LanguageState>(
                 builder: (context, languageState) {
-              return MaterialApp.router(
-                localizationsDelegates: AppLocalizations.localizationsDelegates,
-                supportedLocales: AppLocalizations.supportedLocales,
-                locale: languageState.language.locale,
-                debugShowCheckedModeBanner: false,
-                onGenerateTitle: (context) =>
-                    AppLocalizations.of(context)!.appName,
-                theme: theme(),
-                routerConfig: _router,
-              );
+              return BlocBuilder<ThemeBloc, ThemeState>(
+                  builder: (context, themeState) {
+                return MaterialApp.router(
+                  localizationsDelegates:
+                      AppLocalizations.localizationsDelegates,
+                  supportedLocales: AppLocalizations.supportedLocales,
+                  locale: languageState.language.locale,
+                  debugShowCheckedModeBanner: false,
+                  onGenerateTitle: (context) =>
+                      AppLocalizations.of(context)!.appName,
+                  theme: lightTheme(),
+                  darkTheme: darkTheme(),
+                  themeMode: themeState.theme.mode,
+                  routerConfig: _router,
+                );
+              });
             });
-          })),
+          },
+        ),
+      ),
     );
   }
 }

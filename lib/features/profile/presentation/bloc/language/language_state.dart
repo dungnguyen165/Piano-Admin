@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:piano_admin/features/profile/domain/entity/language_entity.dart';
+import '../../../profile.dart';
 
 abstract class LanguageState extends Equatable {
   const LanguageState(this.language);

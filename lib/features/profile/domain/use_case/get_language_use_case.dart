@@ -1,11 +1,11 @@
 import 'package:piano_admin/core/core.dart';
-import 'package:piano_admin/features/profile/profile.dart';
+import '../../profile.dart';
 
 class GetLanguageUseCase implements UseCase<LanguageEntity, void> {
-  GetLanguageUseCase({required LanguageRepository repository})
+  GetLanguageUseCase({required ProfileRepository repository})
       : _repository = repository;
 
-  final LanguageRepository _repository;
+  final ProfileRepository _repository;
 
   @override
   LanguageEntity call({void params}) {

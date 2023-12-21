@@ -1,12 +1,11 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:piano_admin/core/core.dart';
-import 'package:piano_admin/features/profile/data/data_source/local/language_local_data_source.dart';
-import 'package:piano_admin/features/profile/domain/entity/language_entity.dart';
+import '../../../profile.dart';
 
-class HiveLanguageLocalDataSource implements LanguageLocalDataSource {
+class CacheProfileLocalDataSource implements ProfileLocalDataSource {
   static const languageCacheKey = '__language_cache_key';
+  static const themeCacheKey = '__theme_cache_key';
 
-  HiveLanguageLocalDataSource({Cache? cache}) : _cache = cache ?? HiveCache();
+  CacheProfileLocalDataSource({Cache? cache}) : _cache = cache ?? HiveCache();
 
   final Cache _cache;
 
@@ -24,5 +23,17 @@ class HiveLanguageLocalDataSource implements LanguageLocalDataSource {
   @override
   Future<void> saveLanguage(LanguageEntity language) {
     return _cache.write(key: languageCacheKey, value: language.code);
+  }
+
+  @override
+  ThemeEntity getTheme() {
+    final value = _cache.read<String>(key: themeCacheKey);
+    if (value == null) return const ThemeEntity.system();
+    return ThemeEntity.get(value);
+  }
+
+  @override
+  Future<void> saveTheme(ThemeEntity theme) {
+    return _cache.write(key: themeCacheKey, value: theme.value);
   }
 }

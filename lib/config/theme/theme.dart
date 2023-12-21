@@ -1,19 +1,43 @@
 import 'package:flutter/material.dart';
 
-ThemeData theme() {
+ThemeData lightTheme() {
   return ThemeData(
-      useMaterial3: true,
-      appBarTheme: appBarTheme(),
-      bottomAppBarTheme: bottomAppBarTheme(),
-      scaffoldBackgroundColor: Colors.white);
+    brightness: Brightness.light,
+    useMaterial3: true,
+    appBarTheme: lightAppBarTheme(),
+    bottomAppBarTheme: lightBottomAppBarTheme(),
+    scaffoldBackgroundColor: Colors.white,
+  );
 }
 
-AppBarTheme appBarTheme() {
+ThemeData darkTheme() {
+  return ThemeData(
+    brightness: Brightness.dark,
+    useMaterial3: true,
+    appBarTheme: darkAppBarTheme(),
+    bottomAppBarTheme: darkBottomAppBarTheme(),
+    scaffoldBackgroundColor: Colors.white,
+  );
+}
+
+AppBarTheme lightAppBarTheme() {
   return const AppBarTheme(
-      centerTitle: true,
-      titleTextStyle: TextStyle(color: Colors.black, fontSize: 18));
+    centerTitle: true,
+    titleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
+  );
 }
 
-BottomAppBarTheme bottomAppBarTheme() {
+AppBarTheme darkAppBarTheme() {
+  return const AppBarTheme(
+    centerTitle: true,
+    titleTextStyle: TextStyle(color: Colors.white, fontSize: 18),
+  );
+}
+
+BottomAppBarTheme lightBottomAppBarTheme() {
+  return const BottomAppBarTheme();
+}
+
+BottomAppBarTheme darkBottomAppBarTheme() {
   return const BottomAppBarTheme();
 }

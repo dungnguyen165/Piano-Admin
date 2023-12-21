@@ -1,4 +1,4 @@
-import 'package:piano_admin/features/profile/domain/entity/language_entity.dart';
+import '../../../profile.dart';
 
 abstract class LanguageEvent {
   const LanguageEvent();
@@ -9,7 +9,7 @@ class LanguageStarted extends LanguageEvent {
 }
 
 class LanguageChanged extends LanguageEvent {
-  LanguageChanged(this.language);
+  LanguageChanged({required this.language});
 
   final LanguageEntity language;
 }
