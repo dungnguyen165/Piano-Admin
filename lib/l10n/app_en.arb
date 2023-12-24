@@ -7,6 +7,8 @@
   "notification": "Notification",
   "signUp": "Sign Up",
   "login": "Login",
+  "signinWithGoogle": "Sign in with Google",
+  "createAccount": "Create Account",
 
   "account": "Account",
   "settings": "Settings",

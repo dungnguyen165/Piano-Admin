@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:piano_admin/features/profile/presentation/page/language_page.dart';
-import 'package:piano_admin/features/profile/presentation/page/password_page.dart';
-import 'package:piano_admin/features/profile/presentation/page/theme_page.dart';
+import 'package:logger/logger.dart';
+import 'package:piano_admin/core/core.dart';
+import 'package:piano_admin/features/authentication/presentation/bloc/login/login_cubit.dart';
 import '../../../../config/config.dart';
 import '../../../../injection_container.dart';
 import '../../../authentication/authentication.dart';
@@ -25,7 +25,11 @@ final _router = GoRouter(
   debugLogDiagnostics: true,
   redirect: (context, state) {
     final authState = context.read<AuthBloc>().state;
-    if (authState.status == AuthStatus.authenticated) {
+    logger.d('redirect ${state.matchedLocation} authState $authState');
+    if (authState.status == AuthStatus.unauthenticated) {
+      if (state.matchedLocation == '/login/signup') {
+        return '/login/signup';
+      }
       return '/login';
     }
 
@@ -93,6 +97,12 @@ final _router = GoRouter(
     GoRoute(
       path: '/login',
       builder: (context, state) => const LoginPage(),
+      routes: [
+        GoRoute(
+          path: 'signup',
+          builder: (context, state) => const SignUpPage(),
+        ),
+      ],
     ),
   ],
 );
@@ -118,15 +128,15 @@ class AppView extends StatelessWidget {
         )
       ],
       child: MultiBlocProvider(
-        providers: [
-          BlocProvider<AuthBloc>(create: (context) => sl()),
-          BlocProvider<LanguageBloc>(
-              create: (context) => sl()..add(LanguageStarted())),
-          BlocProvider<ThemeBloc>(
-              create: (context) => sl()..add(ThemeStarted()))
-        ],
-        child: BlocBuilder<AuthBloc, AuthState>(
-          builder: (context, authState) {
+          providers: [
+            BlocProvider<AuthBloc>(create: (context) => sl()),
+            BlocProvider<LanguageBloc>(
+                create: (context) => sl()..add(LanguageStarted())),
+            BlocProvider<ThemeBloc>(
+                create: (context) => sl()..add(ThemeStarted()))
+          ],
+          child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+            logger.d('Auth bloc builder $state');
             return BlocBuilder<LanguageBloc, LanguageState>(
                 builder: (context, languageState) {
               return BlocBuilder<ThemeBloc, ThemeState>(
@@ -146,9 +156,7 @@ class AppView extends StatelessWidget {
                 );
               });
             });
-          },
-        ),
-      ),
+          })),
     );
   }
 }

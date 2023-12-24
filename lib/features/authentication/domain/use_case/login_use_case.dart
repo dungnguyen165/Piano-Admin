@@ -16,7 +16,7 @@ class LoginUseCase implements UseCase<Future<void>, LoginUseCaseParams> {
 }
 
 class LoginUseCaseParams {
-  LoginUseCaseParams(this.email, this.password);
+  LoginUseCaseParams({required this.email, required this.password});
 
   final String email;
   final String password;

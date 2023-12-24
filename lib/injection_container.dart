@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:piano_admin/features/authentication/presentation/bloc/login/login_cubit.dart';
 import 'features/authentication/authentication.dart';
 import 'features/profile/profile.dart';
 
@@ -37,9 +38,13 @@ Future<void> initializeDependencies() async {
       getUserStreamUseCase: sl(),
       getCurrentUserUseCase: sl(),
       signUpUseCase: sl(),
+      logoutUseCase: sl(),
+    ),
+  );
+  sl.registerFactory<LoginCubit>(
+    () => LoginCubit(
       loginUseCase: sl(),
       loginWithGoogleUseCase: sl(),
-      logoutUseCase: sl(),
     ),
   );
   sl.registerFactory(

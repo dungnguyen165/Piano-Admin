@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../authentication.dart';
+import '../../../authentication.dart';
 
 enum AuthStatus { authenticated, unauthenticated }
 

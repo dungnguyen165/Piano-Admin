@@ -1,4 +1,4 @@
-import '../../authentication.dart';
+import '../../../authentication.dart';
 
 sealed class AuthEvent {
   const AuthEvent();

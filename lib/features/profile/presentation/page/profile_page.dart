@@ -75,16 +75,17 @@ class ProfilePage extends StatelessWidget {
                   leading: const Icon(Icons.logout_outlined),
                   title: Text(AppLocalizations.of(context)!.logOut),
                   onPressed: (context) {
-                    showAdaptiveDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog.adaptive(
-                          title: Text(AppLocalizations.of(context)!.logOut),
-                          content:
-                              Text(AppLocalizations.of(context)!.confirmLogOut),
-                        );
-                      },
-                    );
+                    context.read<AuthBloc>().add(AuthLogoutRequested());
+                    // showAdaptiveDialog(
+                    //   context: context,
+                    //   builder: (context) {
+                    //     return AlertDialog.adaptive(
+                    //       title: Text(AppLocalizations.of(context)!.logOut),
+                    //       content:
+                    //           Text(AppLocalizations.of(context)!.confirmLogOut),
+                    //     );
+                    //   },
+                    // );
                   },
                 )
               ],
