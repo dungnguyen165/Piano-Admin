@@ -1,33 +1,33 @@
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:piano_admin/features/authentication/domain/entity/email_entity.dart';
-import 'package:piano_admin/features/authentication/domain/entity/password_entity.dart';
+import 'package:piano_admin/features/authentication/domain/entity/otp_entity.dart';
+import 'package:piano_admin/features/authentication/domain/entity/phone_entity.dart';
 
 final class LoginState extends Equatable {
   const LoginState({
-    this.email = const EmailEntity.pure(),
-    this.password = const PasswordEntity.pure(),
+    this.phone = const PhoneEntity.pure(),
+    this.otp = const OtpEntity.pure(),
     this.status = FormzSubmissionStatus.initial,
     this.isValid = false,
     this.errorMessage,
   });
 
-  final EmailEntity email;
-  final PasswordEntity password;
+  final PhoneEntity phone;
+  final OtpEntity otp;
   final FormzSubmissionStatus status;
   final bool isValid;
   final String? errorMessage;
 
   LoginState copyWith({
-    EmailEntity? email,
-    PasswordEntity? password,
+    PhoneEntity? phone,
+    OtpEntity? otp,
     FormzSubmissionStatus? status,
     bool? isValid,
     String? errorMessage,
   }) {
     return LoginState(
-      email: email ?? this.email,
-      password: password ?? this.password,
+      phone: phone ?? this.phone,
+      otp: otp ?? this.otp,
       status: status ?? this.status,
       isValid: isValid ?? this.isValid,
       errorMessage: errorMessage ?? this.errorMessage,
@@ -35,5 +35,5 @@ final class LoginState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [email, password, status, isValid, errorMessage];
+  List<Object?> get props => [phone, otp, status, isValid, errorMessage];
 }

@@ -7,10 +7,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
     required GetUserStreamUseCase getUserStreamUseCase,
     required GetCurrentUserUseCase getCurrentUserUseCase,
-    required SignUpUseCase signUpUseCase,
     required LogoutUseCase logoutUseCase,
   })  : _getUserStreamUseCase = getUserStreamUseCase,
-        _getCurrentUserUseCase = getCurrentUserUseCase,
         _logoutUseCase = logoutUseCase,
         super(
           getCurrentUserUseCase().isNotEmpty
@@ -27,7 +25,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   final GetUserStreamUseCase _getUserStreamUseCase;
-  final GetCurrentUserUseCase _getCurrentUserUseCase;
   final LogoutUseCase _logoutUseCase;
 
   late final StreamSubscription<UserEntity> _userSubscription;

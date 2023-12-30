@@ -9,7 +9,6 @@
   "signinWithGoogle": "Đăng nhập bằng Google",
   "createAccount": "Tạo Tài Khoản",
   "login": "Đăng Nhập",
-
   "account": "Tài Khoản",
   "settings": "Cài Đặt",
   "email": "Email",
@@ -22,5 +21,18 @@
   "dark": "Tối",
   "system": "Hệ Thống",
   "logOut": "Đăng Xuất",
-  "confirmLogOut": "Bạn có chắc chắc muốn đăng xuất?"
+  "confirmLogOut": "Bạn có chắc chắc muốn đăng xuất?",
+  "sendCode": "Gửi mã OTP",
+  "code": "Mã OTP",
+  "enterVerificationCode": "Vui lòng nhập mã OTP đã được gửi tới số điện thoại {phoneNumber}",
+  "@enterVerificationCode": {
+    "description": "A message to enter code",
+    "placeholders": {
+      "phoneNumber": {
+        "type": "String",
+        "example": "+84123456789"
+      }
+    }
+  },
+  "cancel": "Hủy"
 }

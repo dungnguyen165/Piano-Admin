@@ -26,24 +26,16 @@ class AuthRepositoryImp extends AuthRepository {
   }
 
   @override
-  Future<void> loginWithGoogle() => remoteDataSource.loginWithGoogle();
+  Future<void> login({required String phoneNumber}) =>
+      remoteDataSource.login(phoneNumber: phoneNumber);
 
   @override
-  Future<void> login({required String email, required String password}) =>
-      remoteDataSource.login(email: email, password: password);
+  Future<void> verifyOtp({required String otp}) =>
+      remoteDataSource.verifyOtp(otp: otp);
 
   @override
-  Future<void> signUp(
-          {required String email,
-          required String password,
-          required String name,
-          required String phoneNumber}) =>
-      remoteDataSource.signUp(
-        email: email,
-        password: password,
-        name: name,
-        phoneNumber: phoneNumber,
-      );
+  Future<void> resendOtp({required String phoneNumber}) =>
+      remoteDataSource.resendOtp(phoneNumber: phoneNumber);
 
   @override
   Future<void> logout() => remoteDataSource.logout();

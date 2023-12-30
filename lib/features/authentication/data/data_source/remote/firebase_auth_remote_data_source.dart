@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:piano_admin/core/core.dart';
 import 'package:piano_admin/features/authentication/data/data_source/remote/auth_remote_data_source.dart';
 import 'package:piano_admin/features/authentication/data/models/user_model.dart';
 
@@ -8,78 +8,110 @@ import '../../models/exception.dart';
 class FirebaseAuthRemoteDataSource implements AuthRemoteDataSource {
   FirebaseAuthRemoteDataSource({
     FirebaseAuth? firebaseAuth,
-    GoogleSignIn? googleSignIn,
-  })  : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-        _googleSignIn = googleSignIn ?? GoogleSignIn.standard();
+  }) : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   final FirebaseAuth _firebaseAuth;
-  final GoogleSignIn _googleSignIn;
+
+  String? _phoneNumber;
+  String? _verificationId;
+  int? _resendToken;
 
   @override
   Stream<UserModel> get userStream {
     return _firebaseAuth.authStateChanges().map((firebaseUser) {
-      final user = firebaseUser == null ? UserModel.empty : firebaseUser.toUserModel;
+      final user =
+          firebaseUser == null ? UserModel.empty : firebaseUser.toUserModel;
       return user;
     });
   }
 
   @override
-  Future<void> signUp(
-      {required String email,
-        required String password,
-        required String name,
-        required String phoneNumber}) async {
+  Future<void> login({required String phoneNumber}) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
+      _phoneNumber = phoneNumber;
+      await _firebaseAuth.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          logger.d('verificationCompleted, credential: $credential');
+          await _firebaseAuth.signInWithCredential(credential);
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          logger.d('verificationFailed, exeception: $e');
+          throw e;
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          logger.d(
+              'codeSent, verificationId: $verificationId, resendToken: $resendToken');
+          _verificationId = verificationId;
+          _resendToken = resendToken;
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          logger.d('codeAutoRetrievalTimeout, verificationId: $verificationId');
+          _verificationId = verificationId;
+          _verificationId = verificationId;
+        },
       );
-      //TODO: add user data to FireStore
     } on FirebaseAuthException catch (e) {
-      throw SignUpWithEmailAndPasswordFailure.fromCode(e.code);
+      throw LogInWithPhoneNumberFailure.fromCode(e.code);
     } catch (_) {
-      throw const SignUpWithEmailAndPasswordFailure();
+      throw const LogInWithPhoneNumberFailure();
     }
   }
 
   @override
-  Future<void> login({required String email, required String password}) async {
+  Future<void> verifyOtp({required String otp}) async {
+    logger.d('verifyOtp, otp: $otp');
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-    } on FirebaseAuthException catch (e) {
-      throw LoginWithGoogleFailure.fromCode(e.code);
-    } catch (_) {
-      throw const LogInWithEmailAndPasswordFailure();
-    }
-  }
-
-  @override
-  Future<void> loginWithGoogle() async {
-    try {
-      late final AuthCredential credential;
-
-      final googleUser = await _googleSignIn.signIn();
-      final googleAuth = await googleUser!.authentication;
-      credential = GoogleAuthProvider.credential(
-          idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
-
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+          verificationId: _verificationId!, smsCode: otp);
       await _firebaseAuth.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
-      throw LoginWithGoogleFailure.fromCode(e.code);
+      throw LogInWithPhoneNumberFailure.fromCode(e.code);
     } catch (_) {
-      throw const LoginWithGoogleFailure();
+      throw const LogInWithPhoneNumberFailure();
+    }
+  }
+
+  @override
+  Future<void> resendOtp({required String phoneNumber}) async {
+    logger.d('resendOtp, phoneNumber $phoneNumber');
+    try {
+      await _firebaseAuth.verifyPhoneNumber(
+        phoneNumber: _phoneNumber,
+        forceResendingToken: _resendToken,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          logger.d('verificationCompleted, credential: $credential');
+          await _firebaseAuth.signInWithCredential(credential);
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          logger.d('verificationFailed, exeception: $e');
+          throw e;
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          logger.d(
+              'codeSent, verificationId: $verificationId, resendToken: $resendToken');
+          _verificationId = verificationId;
+          _resendToken = resendToken;
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          logger.d('codeAutoRetrievalTimeout, verificationId: $verificationId');
+          _verificationId = verificationId;
+          _verificationId = verificationId;
+        },
+      );
+    } on FirebaseAuthException catch (e) {
+      throw LogInWithPhoneNumberFailure.fromCode(e.code);
+    } catch (_) {
+      throw const LogInWithPhoneNumberFailure();
     }
   }
 
   @override
   Future<void> logout() async {
+    logger.d('logout');
     try {
       await Future.wait([
         _firebaseAuth.signOut(),
-        _googleSignIn.signOut(),
       ]);
     } catch (_) {
       throw LogOutFailure();

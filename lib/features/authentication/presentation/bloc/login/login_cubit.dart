@@ -1,50 +1,51 @@
 import 'package:bloc/bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:piano_admin/features/authentication/domain/entity/email_entity.dart';
-import 'package:piano_admin/features/authentication/domain/entity/password_entity.dart';
-import 'package:piano_admin/features/authentication/presentation/bloc/login/login_state.dart';
-
 import '../../../authentication.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit({
     required LoginUseCase loginUseCase,
-    required LoginWithGoogleUseCase loginWithGoogleUseCase,
+    required VerifyOtpUseCase verifyOtpUseCase,
+    required ResendOtpUseCase resendOtpUseCase,
   })  : _loginUseCase = loginUseCase,
-        _loginWithGoogleUseCase = loginWithGoogleUseCase,
+        _verifyOtpUseCase = verifyOtpUseCase,
+        _resendOtpUseCase = resendOtpUseCase,
         super(const LoginState());
 
   final LoginUseCase _loginUseCase;
-  final LoginWithGoogleUseCase _loginWithGoogleUseCase;
+  final VerifyOtpUseCase _verifyOtpUseCase;
+  final ResendOtpUseCase _resendOtpUseCase;
 
-  void emailChanged(String value) {
-    final email = EmailEntity.dirty(value);
+  void phoneChanged(String value) {
+    final phone = PhoneEntity.dirty(value);
     emit(state.copyWith(
-      email: email,
-      isValid: Formz.validate([email, state.password]),
+      phone: phone,
+      isValid: Formz.validate([phone]),
     ));
   }
 
-  void passwordChanged(String value) {
-    final password = PasswordEntity.dirty(value);
+  void otpChanged(String value) {
+    final otp = OtpEntity.dirty(value);
     emit(state.copyWith(
-      password: password,
-      isValid: Formz.validate([state.email, password]),
+      otp: otp,
+      isValid: Formz.validate([state.phone, otp]),
     ));
   }
 
-  Future<void> loginWithCredential() async {
+  void resetStatus() {
+    emit(state.copyWith(
+      status: FormzSubmissionStatus.initial,
+      isValid: false,
+    ));
+  }
+
+  Future<void> login() async {
     if (!state.isValid) return;
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     try {
-      await _loginUseCase(
-        params: LoginUseCaseParams(
-          email: state.email.value,
-          password: state.password.value,
-        ),
-      );
+      await _loginUseCase(params: state.phone.value);
       emit(state.copyWith(status: FormzSubmissionStatus.success));
-    } on LogInWithEmailAndPasswordFailure catch (e) {
+    } on LogInWithPhoneNumberFailure catch (e) {
       emit(state.copyWith(
         errorMessage: e.message,
         status: FormzSubmissionStatus.failure,
@@ -54,16 +55,29 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
-  Future<void> loginWithGoogle() async {
+  Future<void> verifyOtp() async {
+    if (!state.isValid) return;
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     try {
-      await _loginWithGoogleUseCase();
+      await _verifyOtpUseCase(params: state.otp.value);
       emit(state.copyWith(status: FormzSubmissionStatus.success));
-    } on LoginWithGoogleFailure catch (e) {
+    } on LogInWithPhoneNumberFailure catch (e) {
       emit(state.copyWith(
-        errorMessage: e.message,
-        status: FormzSubmissionStatus.failure,
-      ));
+          errorMessage: e.message, status: FormzSubmissionStatus.failure));
+    } catch (_) {
+      emit(state.copyWith(status: FormzSubmissionStatus.failure));
+    }
+  }
+
+  Future<void> resendOtp() async {
+    if (state.phone.isNotValid) return;
+    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+    try {
+      await _resendOtpUseCase(params: state.phone.value);
+      emit(state.copyWith(status: FormzSubmissionStatus.success));
+    } on LogInWithPhoneNumberFailure catch (e) {
+      emit(state.copyWith(
+          errorMessage: e.message, status: FormzSubmissionStatus.failure));
     } catch (_) {
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
     }

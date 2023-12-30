@@ -1,5 +1,4 @@
 import 'package:get_it/get_it.dart';
-import 'package:piano_admin/features/authentication/presentation/bloc/login/login_cubit.dart';
 import 'features/authentication/authentication.dart';
 import 'features/profile/profile.dart';
 
@@ -24,8 +23,8 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton(GetCurrentUserUseCase(repository: sl()));
   sl.registerSingleton(GetUserStreamUseCase(repository: sl()));
   sl.registerSingleton(LoginUseCase(repository: sl()));
-  sl.registerSingleton(LoginWithGoogleUseCase(repository: sl()));
-  sl.registerSingleton(SignUpUseCase(repository: sl()));
+  sl.registerSingleton(VerifyOtpUseCase(repository: sl()));
+  sl.registerSingleton(ResendOtpUseCase(repository: sl()));
   sl.registerSingleton(LogoutUseCase(repository: sl()));
   sl.registerSingleton(GetLanguageUseCase(repository: sl()));
   sl.registerSingleton(SaveLanguageUseCase(repository: sl()));
@@ -37,14 +36,14 @@ Future<void> initializeDependencies() async {
     () => AuthBloc(
       getUserStreamUseCase: sl(),
       getCurrentUserUseCase: sl(),
-      signUpUseCase: sl(),
       logoutUseCase: sl(),
     ),
   );
   sl.registerFactory<LoginCubit>(
     () => LoginCubit(
       loginUseCase: sl(),
-      loginWithGoogleUseCase: sl(),
+      verifyOtpUseCase: sl(),
+      resendOtpUseCase: sl(),
     ),
   );
   sl.registerFactory(

@@ -9,7 +9,6 @@
   "login": "Login",
   "signinWithGoogle": "Sign in with Google",
   "createAccount": "Create Account",
-
   "account": "Account",
   "settings": "Settings",
   "email": "Email",
@@ -22,5 +21,18 @@
   "dark": "Dark",
   "system": "System",
   "logOut": "Log out",
-  "confirmLogOut": "Are you sure you want to log out?"
+  "confirmLogOut": "Are you sure you want to log out?",
+  "sendCode": "Send Code",
+  "code": "Code",
+  "enterVerificationCode": "Enter the verification code sent to {phoneNumber}",
+  "@enterVerificationCode": {
+    "description": "A message to enter code",
+    "placeholders": {
+      "phoneNumber": {
+        "type": "String",
+        "example": "+84123456789"
+      }
+    }
+  },
+  "cancel": "Cancel"
 }
