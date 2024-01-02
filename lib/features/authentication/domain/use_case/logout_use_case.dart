@@ -1,5 +1,5 @@
 import 'package:piano_admin/core/use_case/use_case.dart';
-import 'package:piano_admin/features/authentication/domain/repository/auth_repository.dart';
+import '../../authentication.dart';
 
 class LogoutUseCase implements UseCase<Future<void>, void> {
   LogoutUseCase({required AuthRepository repository})

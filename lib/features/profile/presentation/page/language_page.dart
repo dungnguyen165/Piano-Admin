@@ -9,12 +9,13 @@ class LanguagePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.language)),
+      appBar: AppBar(title: Text(l10n.language)),
       body: BlocBuilder<LanguageBloc, LanguageState>(builder: (context, state) {
         return SettingsList(sections: [
           SettingsSection(
-            title: Text(AppLocalizations.of(context)!.language),
+            title: Text(l10n.language),
             tiles: _buildLanguageTiles(context, state.language),
           )
         ]);

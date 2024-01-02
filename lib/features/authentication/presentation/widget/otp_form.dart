@@ -26,7 +26,7 @@ class OtpForm extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
-              content: Text(state.errorMessage ?? 'Authentication Failure'),
+              content: Text(state.error!.localizedMessage(context)),
             ));
         }
         if (state.status.isSuccess) {
@@ -43,7 +43,7 @@ class OtpForm extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(AppLocalizations.of(context)!.code,
+                Text(AppLocalizations.of(context).code,
                     style: Theme.of(context).textTheme.headlineLarge),
                 const SizedBox(height: 16),
                 state.status.isInProgress
@@ -122,7 +122,7 @@ class _OtpInputState extends State<_OtpInput> {
                   border: Border.all(color: borderColor),
                 ),
               ),
-              errorText: state.errorMessage,
+              errorText: state.error!.localizedMessage(context),
               errorPinTheme: defaultPinTheme.copyWith(
                 decoration: BoxDecoration(
                   color: errorColor,

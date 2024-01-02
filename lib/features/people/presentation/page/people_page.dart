@@ -6,8 +6,9 @@ class PeoplePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Center(
-      child: Text(AppLocalizations.of(context)!.people),
+      child: Text(l10n.people),
     );
   }
 }

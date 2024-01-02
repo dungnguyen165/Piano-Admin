@@ -47,7 +47,7 @@ class LoginCubit extends Cubit<LoginState> {
       emit(state.copyWith(status: FormzSubmissionStatus.success));
     } on LogInWithPhoneNumberFailure catch (e) {
       emit(state.copyWith(
-        errorMessage: e.message,
+        error: e,
         status: FormzSubmissionStatus.failure,
       ));
     } catch (_) {
@@ -63,7 +63,9 @@ class LoginCubit extends Cubit<LoginState> {
       emit(state.copyWith(status: FormzSubmissionStatus.success));
     } on LogInWithPhoneNumberFailure catch (e) {
       emit(state.copyWith(
-          errorMessage: e.message, status: FormzSubmissionStatus.failure));
+        error: e,
+        status: FormzSubmissionStatus.failure,
+      ));
     } catch (_) {
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
     }
@@ -77,7 +79,9 @@ class LoginCubit extends Cubit<LoginState> {
       emit(state.copyWith(status: FormzSubmissionStatus.success));
     } on LogInWithPhoneNumberFailure catch (e) {
       emit(state.copyWith(
-          errorMessage: e.message, status: FormzSubmissionStatus.failure));
+        error: e,
+        status: FormzSubmissionStatus.failure,
+      ));
     } catch (_) {
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
     }

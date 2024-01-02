@@ -6,6 +6,9 @@ class BillPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text(AppLocalizations.of(context)!.bill),);
+    final l10n = AppLocalizations.of(context);
+    return Center(
+      child: Text(l10n.bill),
+    );
   }
 }

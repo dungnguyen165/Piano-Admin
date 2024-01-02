@@ -9,13 +9,14 @@ class ThemePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.theme)),
+      appBar: AppBar(title: Text(l10n.theme)),
       body: BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
         return SettingsList(sections: [
           SettingsSection(
-            title: Text(AppLocalizations.of(context)!.theme),
-            tiles: _buildLanguageTiles(context, state.theme),
+            title: Text(l10n.theme),
+            tiles: _buildLanguageTiles(context, l10n, state.theme),
           )
         ]);
       }),
@@ -24,6 +25,7 @@ class ThemePage extends StatelessWidget {
 
   List<SettingsTile> _buildLanguageTiles(
     BuildContext context,
+    AppLocalizations l10n,
     ThemeEntity selectedTheme,
   ) {
     return ThemeEntity.themes
@@ -32,11 +34,11 @@ class ThemePage extends StatelessWidget {
             title: Text((() {
               switch (theme.mode) {
                 case ThemeMode.light:
-                  return AppLocalizations.of(context)!.light;
+                  return l10n.light;
                 case ThemeMode.dark:
-                  return AppLocalizations.of(context)!.dark;
+                  return l10n.dark;
                 default:
-                  return AppLocalizations.of(context)!.system;
+                  return l10n.system;
               }
             }())),
             onPressed: (context) {

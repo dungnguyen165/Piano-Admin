@@ -16,13 +16,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.appName),
+        title: Text(l10n.appName),
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_outlined),
-            tooltip: AppLocalizations.of(context)!.notification,
+            tooltip: l10n.notification,
             onPressed: () {
               context.go('/notification');
             },
@@ -33,13 +34,13 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: const Icon(Icons.schedule_outlined), label: AppLocalizations.of(context)!.schedule),
+              icon: const Icon(Icons.schedule_outlined), label: l10n.schedule),
           BottomNavigationBarItem(
-              icon: const Icon(Icons.payment_outlined), label: AppLocalizations.of(context)!.bill),
+              icon: const Icon(Icons.payment_outlined), label: l10n.bill),
           BottomNavigationBarItem(
-              icon: const Icon(Icons.people_outline), label: AppLocalizations.of(context)!.people),
+              icon: const Icon(Icons.people_outline), label: l10n.people),
           BottomNavigationBarItem(
-              icon: const Icon(Icons.settings_outlined), label: AppLocalizations.of(context)!.profile),
+              icon: const Icon(Icons.settings_outlined), label: l10n.profile),
         ],
         currentIndex: _currentIndex,
         unselectedItemColor: Colors.black,

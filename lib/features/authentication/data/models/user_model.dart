@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
-import '../../domain/entity/user_entity.dart';
+import '../../authentication.dart';
 
 part 'user_model.g.dart';
 

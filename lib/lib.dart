@@ -14,7 +14,7 @@ export 'features/authentication/data/data_source/local/auth_local_data_source.da
 export 'features/authentication/data/data_source/local/hive_auth_local_data_source.dart';
 export 'features/authentication/data/data_source/remote/auth_remote_data_source.dart';
 export 'features/authentication/data/data_source/remote/firebase_auth_remote_data_source.dart';
-export 'features/authentication/data/models/exception.dart';
+export 'features/authentication/data/models/login_failure.dart';
 export 'features/authentication/data/models/firebase_login_data.dart';
 export 'features/authentication/data/models/user_model.dart';
 export 'features/authentication/data/repository/auth_repository_imp.dart';

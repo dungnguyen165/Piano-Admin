@@ -1,7 +1,4 @@
-import 'package:piano_admin/features/authentication/data/data_source/local/auth_local_data_source.dart';
-import 'package:piano_admin/features/authentication/data/data_source/remote/auth_remote_data_source.dart';
-import 'package:piano_admin/features/authentication/domain/entity/user_entity.dart';
-import 'package:piano_admin/features/authentication/domain/repository/auth_repository.dart';
+import '../../authentication.dart';
 
 class AuthRepositoryImp extends AuthRepository {
   AuthRepositoryImp({

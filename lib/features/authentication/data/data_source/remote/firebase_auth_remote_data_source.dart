@@ -1,16 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:piano_admin/core/core.dart';
-import 'package:piano_admin/features/authentication/data/data_source/remote/auth_remote_data_source.dart';
-import 'package:piano_admin/features/authentication/data/models/user_model.dart';
-
-import '../../models/exception.dart';
+import '../../../authentication.dart';
 
 class FirebaseAuthRemoteDataSource implements AuthRemoteDataSource {
-  FirebaseAuthRemoteDataSource({
-    FirebaseAuth? firebaseAuth,
-  }) : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
+  FirebaseAuthRemoteDataSource(
+      {FirebaseAuth? firebaseAuth, FirebaseFirestore? firestore})
+      : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
+        _firestore = firestore ?? FirebaseFirestore.instance;
 
   final FirebaseAuth _firebaseAuth;
+  final FirebaseFirestore _firestore;
 
   String? _phoneNumber;
   String? _verificationId;
@@ -29,6 +29,11 @@ class FirebaseAuthRemoteDataSource implements AuthRemoteDataSource {
   Future<void> login({required String phoneNumber}) async {
     try {
       _phoneNumber = phoneNumber;
+      // Need to check if user exists. If not, does not send allow to send OTP
+      if (!await _isUserExist(phoneNumber: phoneNumber)) {
+        throw const LogInWithPhoneNumberFailure(code: 'user-not-found');
+      }
+
       await _firebaseAuth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) async {
@@ -48,14 +53,36 @@ class FirebaseAuthRemoteDataSource implements AuthRemoteDataSource {
         codeAutoRetrievalTimeout: (String verificationId) {
           logger.d('codeAutoRetrievalTimeout, verificationId: $verificationId');
           _verificationId = verificationId;
-          _verificationId = verificationId;
         },
       );
     } on FirebaseAuthException catch (e) {
-      throw LogInWithPhoneNumberFailure.fromCode(e.code);
-    } catch (_) {
+      logger.e('login error, exception: $e');
+      throw LogInWithPhoneNumberFailure(code: e.code);
+    } on LogInWithPhoneNumberFailure catch (_) {
+      rethrow;
+    } catch (e) {
+      logger.e('login unknown error, exception: $e');
       throw const LogInWithPhoneNumberFailure();
     }
+  }
+
+  Future<bool> _isUserExist({required String phoneNumber}) async {
+    final querySnapshot = await _firestore
+        .collection('user_check')
+        .where('phone', isEqualTo: phoneNumber)
+        .get();
+
+    logger.d("Successfully completed ${querySnapshot.size}");
+
+    if (querySnapshot.size < 1) {
+      return false;
+    }
+
+    for (var docSnapshot in querySnapshot.docs) {
+      logger.d('${docSnapshot.id} => ${docSnapshot.data()}');
+    }
+
+    return true;
   }
 
   @override
@@ -66,8 +93,10 @@ class FirebaseAuthRemoteDataSource implements AuthRemoteDataSource {
           verificationId: _verificationId!, smsCode: otp);
       await _firebaseAuth.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
-      throw LogInWithPhoneNumberFailure.fromCode(e.code);
-    } catch (_) {
+      logger.e('verifyOtp error, exception: $e');
+      throw LogInWithPhoneNumberFailure(code: e.code);
+    } catch (e) {
+      logger.e('verifyOtp unknown error, exception: $e');
       throw const LogInWithPhoneNumberFailure();
     }
   }
@@ -100,8 +129,10 @@ class FirebaseAuthRemoteDataSource implements AuthRemoteDataSource {
         },
       );
     } on FirebaseAuthException catch (e) {
-      throw LogInWithPhoneNumberFailure.fromCode(e.code);
-    } catch (_) {
+      logger.e('resendOtp error, exception: $e');
+      throw LogInWithPhoneNumberFailure(code: e.code);
+    } catch (e) {
+      logger.e('resendOtp unknown error, exception: $e');
       throw const LogInWithPhoneNumberFailure();
     }
   }
@@ -113,7 +144,8 @@ class FirebaseAuthRemoteDataSource implements AuthRemoteDataSource {
       await Future.wait([
         _firebaseAuth.signOut(),
       ]);
-    } catch (_) {
+    } catch (e) {
+      logger.e('logout error, exception: $e');
       throw LogOutFailure();
     }
   }

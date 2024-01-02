@@ -6,9 +6,10 @@ class PasswordPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.password)),
-      body: Center(child: Text(AppLocalizations.of(context)!.password)),
+      appBar: AppBar(title: Text(l10n.password)),
+      body: Center(child: Text(l10n.password)),
     );
   }
 }

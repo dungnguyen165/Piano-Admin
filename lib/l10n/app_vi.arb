@@ -2,11 +2,10 @@
   "appName": "Piano Quản Lý",
   "schedule": "Lịch Dạy",
   "bill": "Hóa Đơn",
-  "people": "Người",
+  "people": "Mọi Người",
   "profile": "Hồ Sơ",
   "notification": "Thông Báo",
   "signUp": "Đăng Ký",
-  "signinWithGoogle": "Đăng nhập bằng Google",
   "createAccount": "Tạo Tài Khoản",
   "login": "Đăng Nhập",
   "account": "Tài Khoản",
@@ -34,5 +33,14 @@
       }
     }
   },
-  "cancel": "Hủy"
+  "cancel": "Hủy",
+  "enterYourPhoneNumber": "Nhập số điện thoại của bạn",
+  "invalidPassword": "Mật khẩu không hợp lệ",
+  "errorMessageAccountIsAlreadyExisted": "Tài khoản đã tồn tại. Vui lòng liên hệ với bộ phận hỗ trợ để được trợ giúp.",
+  "errorMessageUserHasBeenDisabled": "Người dùng này đã bị vô hiệu hóa. Vui lòng liên hệ với bộ phận hỗ trợ để được trợ giúp.",
+  "errorMessageLoginByPhoneNumberIsNotAllowed": "Không được phép đăng nhập bằng số điện thoại. Vui lòng liên hệ với bộ phận hỗ trợ để được trợ giúp.",
+  "errorMessageCannotFindUser": "Không thể tìm thấy người dùng.",
+  "errorMessageIncorrectPassword": "Mật khẩu sai, vui lòng thử lại.",
+  "errorMessageIncorrectVerifyCode": "Mã xác minh không chính xác, vui lòng thử lại.",
+  "errorMessageAnUnknownErrorOccurred": "Đã xảy ra lỗi không xác định."
 }

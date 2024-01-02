@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:piano_admin/features/authentication/presentation/bloc/login/login_cubit.dart';
-import 'package:piano_admin/features/authentication/presentation/bloc/login/login_state.dart';
+import '../../authentication.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -20,7 +19,7 @@ class LoginForm extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
-              content: Text(state.errorMessage ?? 'Authentication Failure'),
+              content: Text(state.error!.localizedMessage(context)),
             ));
         }
         if (state.status.isSuccess) {
@@ -50,6 +49,7 @@ class LoginForm extends StatelessWidget {
 class _PhoneNumberInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final local = AppLocalizations.of(context);
     return BlocBuilder<LoginCubit, LoginState>(
         buildWhen: (previous, current) => previous.phone != current.phone,
         builder: (context, state) {
@@ -62,10 +62,11 @@ class _PhoneNumberInput extends StatelessWidget {
                 context.read<LoginCubit>().phoneChanged(phoneNumber),
             keyboardType: TextInputType.phone,
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.phoneNumber,
-              helperText: 'Enter your phone number',
-              errorText:
-                  state.phone.displayError != null ? 'invalid password' : null,
+              labelText: local.phoneNumber,
+              helperText: local.enterYourPhoneNumber,
+              errorText: state.phone.displayError != null
+                  ? local.invalidPassword
+                  : null,
             ),
           );
         });
@@ -89,7 +90,7 @@ class _LoginButton extends StatelessWidget {
               onPressed: state.isValid
                   ? () => context.read<LoginCubit>().login()
                   : null,
-              child: Text(AppLocalizations.of(context)!.login),
+              child: Text(AppLocalizations.of(context).login),
             );
     });
   }

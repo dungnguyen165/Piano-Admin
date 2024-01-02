@@ -7,7 +7,6 @@
   "notification": "Notification",
   "signUp": "Sign Up",
   "login": "Login",
-  "signinWithGoogle": "Sign in with Google",
   "createAccount": "Create Account",
   "account": "Account",
   "settings": "Settings",
@@ -34,5 +33,14 @@
       }
     }
   },
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "enterYourPhoneNumber": "Enter your phone number",
+  "invalidPassword": "Invalid Password",
+  "errorMessageAccountIsAlreadyExisted": "Account is already existed. Please contact support for help.",
+  "errorMessageUserHasBeenDisabled": "This user has been disabled. Please contact support for help.",
+  "errorMessageLoginByPhoneNumberIsNotAllowed": "Login by phone number is not allowed. Please contact support for help.",
+  "errorMessageCannotFindUser": "Cannot find user.",
+  "errorMessageIncorrectPassword": "Incorrect password, please try again.",
+  "errorMessageIncorrectVerifyCode": "Incorrect verify code, please try again.",
+  "errorMessageAnUnknownErrorOccurred": "An unknown error occurred."
 }

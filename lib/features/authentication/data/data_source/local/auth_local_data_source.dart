@@ -1,6 +1,7 @@
-import 'package:piano_admin/features/authentication/data/models/user_model.dart';
+import '../../../authentication.dart';
 
 abstract class AuthLocalDataSource {
   Future<void> saveCurrentUser(UserModel user);
+
   UserModel getCurrentUser();
 }

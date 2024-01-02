@@ -42,7 +42,7 @@ class AppView extends StatelessWidget {
               locale: locale,
               debugShowCheckedModeBanner: false,
               onGenerateTitle: (context) =>
-                  AppLocalizations.of(context)!.appName,
+                  AppLocalizations.of(context).appName,
               theme: lightTheme(),
               darkTheme: darkTheme(),
               themeMode: themeMode,

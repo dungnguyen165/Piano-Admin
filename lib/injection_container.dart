@@ -1,14 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
+import 'core/core.dart';
 import 'features/authentication/authentication.dart';
 import 'features/profile/profile.dart';
 
 final sl = GetIt.instance;
 
 Future<void> initializeDependencies() async {
+  sl.registerSingleton<Cache>(HiveCache());
   // Data source
-  sl.registerSingleton<AuthLocalDataSource>(HiveAuthLocalDataSource());
-  sl.registerSingleton<AuthRemoteDataSource>(FirebaseAuthRemoteDataSource());
-  sl.registerSingleton<ProfileLocalDataSource>(CacheProfileLocalDataSource());
+  sl.registerSingleton<AuthLocalDataSource>(HiveAuthLocalDataSource(
+    cache: sl(),
+  ));
+  sl.registerSingleton<AuthRemoteDataSource>(FirebaseAuthRemoteDataSource(
+    firebaseAuth: FirebaseAuth.instance,
+    firestore: FirebaseFirestore.instance,
+  ));
+  sl.registerSingleton<ProfileLocalDataSource>(CacheProfileLocalDataSource(
+    cache: sl(),
+  ));
 
   // Repository
   sl.registerSingleton<AuthRepository>(AuthRepositoryImp(

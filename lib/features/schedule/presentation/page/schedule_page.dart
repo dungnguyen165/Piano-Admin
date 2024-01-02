@@ -6,6 +6,9 @@ class SchedulePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text(AppLocalizations.of(context)!.schedule),);
+    final l10n = AppLocalizations.of(context);
+    return Center(
+      child: Text(l10n.schedule),
+    );
   }
 }

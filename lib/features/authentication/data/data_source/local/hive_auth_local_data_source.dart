@@ -1,4 +1,5 @@
-import '../../../../../core/core.dart';
+import 'package:piano_admin/core/core.dart';
+
 import '../../../authentication.dart';
 
 class HiveAuthLocalDataSource implements AuthLocalDataSource {
