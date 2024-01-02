@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:piano_admin/features/authentication/authentication.dart';
+import 'package:piano_admin/core/core.dart';
 import 'package:piano_admin/features/profile/profile.dart';
 import 'package:settings_ui/settings_ui.dart';
-
-import '../widget/adaptive_action.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -14,9 +12,10 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, authState) {
-        if (authState.status == AuthStatus.unauthenticated) {
+    return BlocConsumer<UserBloc, UserState>(
+      listenWhen: (previous, current) => previous.status != current.status,
+      listener: (context, state) {
+        if (state.status == AuthStatus.unauthenticated) {
           context.go('/login');
         }
       },
@@ -29,25 +28,16 @@ class ProfilePage extends StatelessWidget {
               SettingsSection(
                 title: Text(l10n.account),
                 tiles: [
-                  SettingsTile(
+                  SettingsTile.navigation(
                     leading: const Icon(Icons.person_2_outlined),
                     title: Text(l10n.userName),
                     value: Text(authState.user.name ?? ''),
-                  ),
-                  SettingsTile(
-                    leading: const Icon(Icons.email_outlined),
-                    title: Text(l10n.email),
-                    value: Text(authState.user.email ?? ''),
+                    onPressed: (context) => context.go('/profile/password'),
                   ),
                   SettingsTile(
                     leading: const Icon(Icons.phone_android_outlined),
                     title: Text(l10n.phoneNumber),
                     value: Text(authState.user.phone ?? ''),
-                  ),
-                  SettingsTile.navigation(
-                    leading: const Icon(Icons.password_outlined),
-                    title: Text(l10n.password),
-                    onPressed: (context) => context.go('/profile/password'),
                   ),
                 ],
               ),
@@ -101,8 +91,8 @@ class ProfilePage extends StatelessWidget {
                               adaptiveAction(
                                 context: context,
                                 onPressed: () => context
-                                    .read<AuthBloc>()
-                                    .add(const AuthLogoutRequested()),
+                                    .read<UserBloc>()
+                                    .add(const UserLogoutRequested()),
                                 child: Text(l10n.logOut),
                               )
                             ],

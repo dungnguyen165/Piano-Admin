@@ -2,10 +2,10 @@ import 'package:piano_admin/core/core.dart';
 import '../../profile.dart';
 
 class SaveLanguageUseCase implements UseCase<Future<void>, LanguageEntity> {
-  SaveLanguageUseCase({required ProfileRepository repository})
+  SaveLanguageUseCase({required SettingRepository repository})
       : _repository = repository;
 
-  final ProfileRepository _repository;
+  final SettingRepository _repository;
 
   @override
   Future<void> call({LanguageEntity? params}) {

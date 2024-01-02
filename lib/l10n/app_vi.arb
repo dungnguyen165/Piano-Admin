@@ -35,7 +35,7 @@
   },
   "cancel": "Hủy",
   "enterYourPhoneNumber": "Nhập số điện thoại của bạn",
-  "invalidPassword": "Mật khẩu không hợp lệ",
+  "invalidPhoneNumber": "Số điện thoại không hợp lệ",
   "errorMessageAccountIsAlreadyExisted": "Tài khoản đã tồn tại. Vui lòng liên hệ với bộ phận hỗ trợ để được trợ giúp.",
   "errorMessageUserHasBeenDisabled": "Người dùng này đã bị vô hiệu hóa. Vui lòng liên hệ với bộ phận hỗ trợ để được trợ giúp.",
   "errorMessageLoginByPhoneNumberIsNotAllowed": "Không được phép đăng nhập bằng số điện thoại. Vui lòng liên hệ với bộ phận hỗ trợ để được trợ giúp.",

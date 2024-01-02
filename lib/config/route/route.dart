@@ -14,11 +14,14 @@ final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
   redirect: (context, state) {
-    final authState = context.read<AuthBloc>().state;
+    final authState = context.read<UserBloc>().state;
     logger.d('redirect ${state.matchedLocation} authState $authState');
     if (authState.status == AuthStatus.unauthenticated) {
       if (state.matchedLocation.contains('otp')) {
         return '/login/otp';
+      }
+      if (state.matchedLocation.contains('language')) {
+        return '/login/language';
       }
       return '/login';
     }
@@ -68,7 +71,7 @@ final router = GoRouter(
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
               path: 'password',
-              builder: (context, state) => const PasswordPage(),
+              builder: (context, state) => const UpdateUserNamePage(),
             ),
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
@@ -91,6 +94,11 @@ final router = GoRouter(
         GoRoute(
           path: 'otp',
           builder: (context, state) => const OtpPage(),
+        ),
+        GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: 'language',
+          builder: (context, state) => const LanguagePage(),
         ),
       ],
     ),

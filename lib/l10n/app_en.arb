@@ -35,7 +35,7 @@
   },
   "cancel": "Cancel",
   "enterYourPhoneNumber": "Enter your phone number",
-  "invalidPassword": "Invalid Password",
+  "invalidPhoneNumber": "Invalid phone number",
   "errorMessageAccountIsAlreadyExisted": "Account is already existed. Please contact support for help.",
   "errorMessageUserHasBeenDisabled": "This user has been disabled. Please contact support for help.",
   "errorMessageLoginByPhoneNumberIsNotAllowed": "Login by phone number is not allowed. Please contact support for help.",

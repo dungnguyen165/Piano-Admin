@@ -1,33 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'core/core.dart';
-import 'features/authentication/authentication.dart';
+import 'features/features.dart';
 import 'features/profile/profile.dart';
 
 final sl = GetIt.instance;
 
 Future<void> initializeDependencies() async {
-  sl.registerSingleton<Cache>(HiveCache());
   // Data source
-  sl.registerSingleton<AuthLocalDataSource>(HiveAuthLocalDataSource(
-    cache: sl(),
-  ));
-  sl.registerSingleton<AuthRemoteDataSource>(FirebaseAuthRemoteDataSource(
+  sl.registerSingleton<UserLocalDataSource>(CacheUserLocalDataSource());
+  sl.registerSingleton<UserRemoteDataSource>(FirebaseUserRemoteDataSource(
     firebaseAuth: FirebaseAuth.instance,
     firestore: FirebaseFirestore.instance,
   ));
-  sl.registerSingleton<ProfileLocalDataSource>(CacheProfileLocalDataSource(
-    cache: sl(),
+  sl.registerSingleton<FirebaseUserRemoteDataSource>(
+      FirebaseUserRemoteDataSource(
+    firebaseAuth: FirebaseAuth.instance,
+    firestore: FirebaseFirestore.instance,
+    firebaseStorage: FirebaseStorage.instance,
   ));
+  sl.registerSingleton<SettingLocalDataSource>(CacheSettingLocalDataSource());
 
   // Repository
-  sl.registerSingleton<AuthRepository>(AuthRepositoryImp(
+  sl.registerSingleton<UserRepository>(UserRepositoryImp(
     localDataSource: sl(),
     remoteDataSource: sl(),
   ));
-  sl.registerSingleton<ProfileRepository>(
-    ProfileRepositoryImp(localDataSource: sl()),
+  sl.registerSingleton<SettingRepository>(
+    SettingRepositoryImp(localDataSource: sl()),
   );
 
   // Use cases
@@ -43,8 +45,8 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton(SaveThemeUseCase(repository: sl()));
 
   // Bloc
-  sl.registerFactory<AuthBloc>(
-    () => AuthBloc(
+  sl.registerFactory<UserBloc>(
+    () => UserBloc(
       getUserStreamUseCase: sl(),
       getCurrentUserUseCase: sl(),
       logoutUseCase: sl(),
@@ -57,16 +59,17 @@ Future<void> initializeDependencies() async {
       resendOtpUseCase: sl(),
     ),
   );
-  sl.registerFactory(
+  sl.registerFactory<LanguageBloc>(
     () => LanguageBloc(
       getLanguageUseCase: sl(),
       saveLanguageUseCase: sl(),
     ),
   );
-  sl.registerFactory(
+  sl.registerFactory<ThemeBloc>(
     () => ThemeBloc(
       getThemeUseCase: sl(),
       saveThemeUseCase: sl(),
     ),
   );
+  sl.registerFactory<HomeCubit>(() => HomeCubit());
 }
